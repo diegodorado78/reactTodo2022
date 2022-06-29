@@ -1,4 +1,10 @@
+@font-face {
+  font-family: pokemon;
+  src: url('./assets/PokemonGb-RAeo.ttf');
+}
+
 body {
+  background-color: #031956;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -8,6 +14,11 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: pokemon,source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+#root{
+  text-align: center;
+  background-color: #031956;
+  color: white;
 }

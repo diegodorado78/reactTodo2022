@@ -1,22 +1,29 @@
 import React from 'react'
+import { TodoContext } from '../TodoContext/TodoContext';
 import './TodoSearch.css'
 
-function TodoSearch({searchValue, setSearchValue}) {
-    // const [] = React.useState("Tanjiro");
+    
+
+function TodoSearch() {
+    const {searchValue, setSearchValue} = React.useContext(TodoContext);
 
     const onSearchValueChange =(e)=>{
     setSearchValue(e.target.value)
     }
 
-    return[
+    return [
         <input 
         key='1'
         className='TodoSearch' 
         type="text"
-        placeholder="what are you looking for?" 
+        placeholder="What are you looking for?" 
         value={searchValue}
-        onChange={onSearchValueChange} 
-         />,
-    ];};
+        onChange={onSearchValueChange}
+       >
+      </input>
+    ]
+       
+              
+;};
 
 export {TodoSearch};

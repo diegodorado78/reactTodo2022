@@ -5,29 +5,35 @@ import {TodoSearch} from '../TodoSearch/TodoSearch';
 import {TodoList} from '../TodoList/TodoList';
 import {CreateTodoButton} from '../CreateTodoButton/CreateTodoButton';
 import demonPic from '../../assets/demon.png';
-import { TodoProvider } from '../TodoContext/TodoContext';
 import { TodoContext } from '../TodoContext/TodoContext';
-function AppUi(){
+import { TodoModal } from '../TodoModal/TodoModal';
+import { TodoForm } from '../TodoForm/TodoForm';
+
+
+  function AppUi(){
+   const {
+    error,
+    loading,
+    searchedTodos,
+    completeTodo,
+    deleteTodo,
+    openModal,
+    setOpenModal
+         }  = React.useContext(TodoContext)
 
     return (
         <React.Fragment>
-          <img src ={demonPic} width='250px' alt="logo"></img>
+          <img src ={demonPic} alt="logo"></img>
           <h1> Tanjiro's to do list </h1>
           {/* dentro de todo counter y todo search me encargo de consumir directamente el estado global */}
-
           <TodoCounter />
-          <TodoSearch  />
+          <TodoSearch >
+          </TodoSearch>
 
-         <TodoContext.Consumer>
+         {/* <TodoContext.Consumer> */}
           {/* render props=> son una funcion que reciben el obejto value que proviene del provider */}
-            {({
-            error,
-            loading,
-            searchedTodos,
-            completeTodo,
-            deleteTodo
-        }) =>(// la funcion permite recibir el estado del provider y devolver elementos paso para el return de jsx
-             <TodoList>
+            {/* {() =>(// la funcion permite recibir el estado del provider y devolver elementos paso para el return de jsx */}
+          <TodoList>
                {/* Si la var loading es true carga el parrafo */}
                {error && <p> Upss hubo un error con tu consulta</p>} 
                {loading && <p> Loading...</p>} 
@@ -43,12 +49,19 @@ function AppUi(){
              onDelete={()=>deleteTodo(todo.text)}
              />
             ))} 
-            </TodoList>
-          )}
-         </TodoContext.Consumer>
-      
-        <CreateTodoButton />
-      
+            </TodoList>    
+
+            {!!openModal &&(// si open Modal es true renderiza en comp TodoModal
+           <TodoModal>
+              <TodoForm></TodoForm>
+           </TodoModal>
+
+            )}
+       
+        <CreateTodoButton
+        setOpenModal={setOpenModal}
+        
+        />
         </React.Fragment>
         );
 }

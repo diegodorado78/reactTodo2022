@@ -5,9 +5,6 @@ import {  faTrashCan,faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 function TodoItem(props) {
    
-    const onDelete = ()=>{
-        alert('borraste la tarea '+ props.text)//se ejecuta en el onclick del todoItem
-    }
     return (
         <li className="TodoItem">
             {/* ${props.completed} es un condicional que agrega lo que va despues del  && como otro classname */}

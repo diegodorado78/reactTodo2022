@@ -11,7 +11,14 @@ function TodoProvider(props) {
        saveItem:saveTodos,
        loading,
        error
-     } = useLocalStorage('TODOS_V1', []);// llamo al hok y paso la data inicial y lo que me devuelve lo guado en todos    
+     } = useLocalStorage('TODOS_V1', [
+        {text:'Buy groceries for ramen', completed:true},
+        {text:'Workout', completed:true},
+        {text:'Go out and hunt some demons', completed:false},
+        {text:'Take a nap', completed:false},
+        {text:'Cook some dinner', completed:false},
+        {text:'Go to sleep', completed:false},
+     ]);// llamo al hok y paso la data inicial y lo que me devuelve lo guado en todos    
    const [openModal, setOpenModal] = React.useState(false);
    const [searchValue, setSearchValue] = React.useState('');
    const completedTodos = todos.filter(todo => !!todo.completed).length;

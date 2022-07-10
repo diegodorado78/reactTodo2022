@@ -1,7 +1,7 @@
 import React from 'react'
 import './TodoItem.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faTrashCan,faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan,faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 function TodoItem(props) {
    

@@ -28,7 +28,7 @@ function useLocalStorage(itemName, initialValue) {
 
   }
   
-  }, 2000);
+  }, 500);
 
   });
 

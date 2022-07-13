@@ -11,7 +11,7 @@ import { TodoForm } from '../TodoForm/TodoForm';
 
 
   function AppUi(){
-   const {
+   const {// recibe el value que es un objeto con todas esas props (value.errror)
     error,
     loading,
     searchedTodos,
@@ -24,12 +24,11 @@ import { TodoForm } from '../TodoForm/TodoForm';
     return (
         <React.Fragment>
           <img src ={demonPic} alt="logo"></img>
-          <h1> Tanjiro's to do list </h1>
+          <h1> Tanjiro's to do list</h1>
           {/* dentro de todo counter y todo search me encargo de consumir directamente el estado global */}
           <TodoCounter />
           <TodoSearch >
           </TodoSearch>
-
          {/* <TodoContext.Consumer> */}
           {/* render props=> son una funcion que reciben el obejto value que proviene del provider */}
             {/* {() =>(// la funcion permite recibir el estado del provider y devolver elementos paso para el return de jsx */}
@@ -51,17 +50,17 @@ import { TodoForm } from '../TodoForm/TodoForm';
             ))} 
             </TodoList>    
 
-            {!!openModal &&(// si open Modal es true renderiza en comp TodoModal
-           <TodoModal>
+{/* LOGICA PARA RENDERIZAR EL MODAL */}
+          {!!openModal &&(// si open Modal es true renderiza en comp TodoModal
+          <TodoModal>
               <TodoForm></TodoForm>
            </TodoModal>
-
             )}
        
         <CreateTodoButton
         setOpenModal={setOpenModal}
-        
         />
+
         </React.Fragment>
         );
 }

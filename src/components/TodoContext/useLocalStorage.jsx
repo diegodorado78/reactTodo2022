@@ -23,10 +23,9 @@ function useLocalStorage(itemName, initialValue) {
     }
     setItem(parsedItem); //actualiza el estado con el valor del local storage
     setLoading(false)
-  }catch(error){
-   setError(error)
-
-  }
+    }catch(error){
+     setError(error)
+    }
   
   }, 500);
 

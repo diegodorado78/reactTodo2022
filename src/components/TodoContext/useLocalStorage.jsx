@@ -8,40 +8,35 @@ function useLocalStorage(itemName, initialValue) {
    // uso el hook state para trata el estado
    const [item, setItem] = React.useState(initialValue);// paso un valor inicial por ejm un array vacio
 
-   React.useEffect(()=>{
+   React.useEffect(() => {
+     setTimeout(() => {
+       try {
+         const localStorageItem = localStorage.getItem(itemName);
+         let parsedItem;
 
-  setTimeout(() => {
-  try{
-    const localStorageItem = localStorage.getItem(itemName);
-    let parsedItem;
-  
-    if (!localStorageItem) {
-      localStorage.setItem(itemName, JSON.stringify(initialValue));
-      parsedItem = initialValue;
-    } else {
-      parsedItem = JSON.parse(localStorageItem);
-    }
-    setItem(parsedItem); //actualiza el estado con el valor del local storage
-    setLoading(false)
-    }catch(error){
-     setError(error)
-    }
-  
-  }, 500);
+         if (!localStorageItem) {
+           localStorage.setItem(itemName, JSON.stringify(initialValue));
+           parsedItem = initialValue;
+         } else {
+           parsedItem = JSON.parse(localStorageItem);
+         }
+         setItem(parsedItem); //actualiza el estado con el valor del local storage
+         setLoading(false);
+       } catch (error) {
+         setError(error);
+       }
+     }, 1000);
+   }, []);
 
-  });
-
-
-const saveItem = (newItem) => {
-  try {
-    const stringifiedItem = JSON.stringify(newItem);
-  localStorage.setItem(itemName, stringifiedItem);
-  setItem(newItem);
-  } catch (error) {
-    setError(error)
-  }
-  
-};
+   const saveItem = (newItem) => {
+     try {
+       const stringifiedItem = JSON.stringify(newItem);
+       localStorage.setItem(itemName, stringifiedItem);
+       setItem(newItem);
+     } catch (error) {
+       setError(error);
+     }
+   };
 
 return {//cuando paso mas de dos elementos cambio[ ] por { }
   item,

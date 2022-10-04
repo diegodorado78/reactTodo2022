@@ -1,12 +1,10 @@
-import React from 'react'
-import { TodoContext } from '../TodoContext/TodoContext'
-import tanjiro from '../../assets/Picture1.png'
-import './TodoForm.css'
+import React from "react";
+import tanjiro from "../../assets/Picture1.png";
+import "./TodoForm.css";
 
-function TodoForm() {
+function TodoForm({ addTodo, setOpenModal }) {
   // al llamar al Form le enviamos un hijo para que lo teletransporte y renderice
   const [newTodoValue, setNewTodoValue] = React.useState("");
-  const { addTodo, setOpenModal } = React.useContext(TodoContext);
   // const newTodoRef = useRef(null);
   const onCancel = () => {
     setOpenModal(false);
@@ -49,4 +47,4 @@ function TodoForm() {
   );
 }
 
-export {TodoForm};
+export { TodoForm };

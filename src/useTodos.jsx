@@ -1,9 +1,7 @@
 import React from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
-const TodoContext = React.createContext();
-
-function TodoProvider(props) {
+function useTodos() {
   // Desestructuramos los datos que retornamos de nuestro custom hook, y le pasamos los argumentos que necesitamos (nombre y estado inicial)
   const { item: todos, saveItem: saveTodos, loading, error } = useLocalStorage(
     "TODOS_V1",
@@ -52,25 +50,21 @@ function TodoProvider(props) {
 
   return (
     //el objeto provider es el que voy a compartir, por eso paso las props en dentro del objeto ubicado en value
-    <TodoContext.Provider
-      value={{
-        error,
-        loading,
-        totalTodos,
-        completedTodos,
-        searchValue,
-        setSearchValue,
-        searchedTodos,
-        completeTodo,
-        addTodo,
-        deleteTodo,
-        openModal,
-        setOpenModal,
-      }}
-    >
-      {props.children}
-    </TodoContext.Provider>
+    {
+      error,
+      loading,
+      totalTodos,
+      completedTodos,
+      searchValue,
+      setSearchValue,
+      searchedTodos,
+      completeTodo,
+      addTodo,
+      deleteTodo,
+      openModal,
+      setOpenModal,
+    }
   );
 }
 
-export { TodoContext, TodoProvider };
+export { useTodos };

@@ -14,6 +14,7 @@ import { TodosLoading } from "./components/TodosLoading/TodosLoading";
 import { TodosError } from "./components/TodosError/TodosError";
 import { EmptyTodos } from "./components/EmptyTodos/EmptyTodos";
 import { EmptySearchedTodos } from "./components/EmptySearchedTodos/EmptySearchedTodos";
+import { ChangeAlertWithStorageListener } from "./components/ChangeAlert/ChangeAlert";
 
 function App() {
   const {
@@ -29,13 +30,14 @@ function App() {
     deleteTodo,
     openModal,
     setOpenModal,
+    sincronizeTodos,
   } = useTodos(); //custon hook que provee el estado
   return (
     <React.Fragment>
       <img src={demonPic} alt="logo"></img>
       <h1> Tanjiro's to do list</h1>
       {/* dentro de todo counter y todo search me encargo de consumir directamente el estado global */}
-      <TodoHeader>
+      <TodoHeader loading={loading}>
         <TodoCounter totalTodos={totalTodos} completedTodos={completedTodos} />
         <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
       </TodoHeader>
@@ -86,6 +88,7 @@ function App() {
       )}
 
       <CreateTodoButton setOpenModal={setOpenModal} />
+      <ChangeAlertWithStorageListener sincronize={sincronizeTodos} />
     </React.Fragment>
   );
 }

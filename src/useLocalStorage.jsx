@@ -2,6 +2,8 @@ import React from "react";
 
 function useLocalStorage(itemName, initialValue) {
   //simulamos estados de carga y error
+  const [sincItem, setsincItem] = React.useState(true); //inicialmente true pero cuando ya carga pasa a false
+
   const [loading, setLoading] = React.useState(true); //inicialmente true pero cuando ya carga pasa a false
   const [error, setError] = React.useState(false); //
   // uso el hook state para trata el estado
@@ -21,11 +23,12 @@ function useLocalStorage(itemName, initialValue) {
         }
         setItem(parsedItem); //actualiza el estado con el valor del local storage
         setLoading(false);
+        setsincItem(true);
       } catch (error) {
         setError(error);
       }
     }, 1000);
-  }, []);
+  }, [sincItem]);
 
   const saveItem = (newItem) => {
     try {
@@ -37,12 +40,19 @@ function useLocalStorage(itemName, initialValue) {
     }
   };
 
+  const sincronize = () => {
+    //al llamarlo debemos poner la app en carga y cambiamos sinc para que el effect se vuelva a ejecutar
+    setLoading(true);
+    setsincItem(false);
+  };
+
   return {
     //cuando paso mas de dos elementos cambio[ ] por { }
     item,
     saveItem,
     loading,
     error,
+    sincronize,
   };
 }
 export { useLocalStorage };

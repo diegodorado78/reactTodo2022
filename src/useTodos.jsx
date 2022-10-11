@@ -3,11 +3,14 @@ import { useLocalStorage } from "./useLocalStorage";
 
 function useTodos() {
   // Desestructuramos los datos que retornamos de nuestro custom hook, y le pasamos los argumentos que necesitamos (nombre y estado inicial)
-  const { item: todos, saveItem: saveTodos, loading, error } = useLocalStorage(
-    "TODOS_V1",
-    []
-  ); // llamo al hook y paso la data inicial y lo que me devuelve lo guado en todos
-  console.log();
+  const {
+    item: todos, //item es el nombre externo y todos el interno
+    saveItem: saveTodos,
+    sincronize: sincronizeTodos,
+    loading,
+    error,
+  } = useLocalStorage("TODOS_V1", []);
+  // llamo al hook y paso la data inicial y lo que me devuelve lo guado en todos
   const [openModal, setOpenModal] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
   const completedTodos = todos.filter((todo) => !!todo.completed).length;
@@ -63,6 +66,7 @@ function useTodos() {
       deleteTodo,
       openModal,
       setOpenModal,
+      sincronizeTodos,
     }
   );
 }

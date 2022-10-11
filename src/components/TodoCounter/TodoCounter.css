@@ -4,3 +4,6 @@ h2{
     margin: 10px auto;
     font-weight:bolder ;
 }
+.TodoCounter__loading{
+ opacity: 25%;
+}

@@ -1,7 +1,8 @@
 import React from "react";
-import { withStorageListener } from "./withStorageListener";
+import { useStorageListener } from "./useStorageListener";
 import "./ChangeAlert.css";
-function ChangeAlert({ show, toggleShow }) {
+function ChangeAlert({ sincronize }) {
+  const { show, toggleShow } = useStorageListener(sincronize);
   if (show) {
     return (
       <div className="ChangeAlert__background">
@@ -9,14 +10,13 @@ function ChangeAlert({ show, toggleShow }) {
           <p>Parece que hubo cambios en los Todos en otra pestaña</p>
           <p>Quieres sincronizar tus TODOS?</p>
           {/* al llamar a este boton, invocamos a props.sincronize  que dispara el use effect*/}
-          <button onClick={() => toggleShow(false)}>Refresh!</button>
+          <button onClick={toggleShow}>Refresh!</button>
         </div>
       </div>
     );
   } else {
-    return;
+    return null;
   }
 }
 
-const ChangeAlertWithStorageListener = withStorageListener(ChangeAlert);
-export { ChangeAlertWithStorageListener };
+export { ChangeAlert };

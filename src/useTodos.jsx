@@ -6,7 +6,7 @@ function useTodos() {
   const {
     item: todos, //item es el nombre externo y todos el interno
     saveItem: saveTodos,
-    sincronize: sincronizeTodos,
+    sincronizeItem: sincronizeTodos, //function()
     loading,
     error,
   } = useLocalStorage("TODOS_V1", []);

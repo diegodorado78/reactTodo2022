@@ -1,14 +1,18 @@
 import React, { useReducer } from "react";
 
 function useLocalStorage(itemName, initialValue) {
-  //simulamos estados de carga y error
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const [sincItem, setsincItem] = React.useState(true); //inicialmente true pero cuando ya carga pasa a false
+  const [state, dispatch] = useReducer(reducer, initialState({ initialValue }));
+  const { sincItem, loading, error, item } = state; //desectructuro las vars del objeto state compuesto
 
-  const [loading, setLoading] = React.useState(true); //inicialmente true pero cuando ya carga pasa a false
-  const [error, setError] = React.useState(false); //
-  // uso el hook state para trata el estado
-  const [item, setItem] = React.useState(initialValue); // paso un valor inicial por ejm un array vacio
+  //ACTION CREATORS, los llamamos cada vez que querramos actualizar los datos de nuestra app
+  const onError = (error) =>
+    dispatch({ type: actionTypes.error, payload: error });
+
+  const onSuccess = (item) =>
+    dispatch({ type: actionTypes.success, payload: item });
+
+  const onSave = (item) => dispatch({ type: actionTypes.save, payload: item });
+  const onSincronize = () => dispatch({ type: actionTypes.sincronize });
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -22,11 +26,11 @@ function useLocalStorage(itemName, initialValue) {
         } else {
           parsedItem = JSON.parse(localStorageItem);
         }
-        setItem(parsedItem); //actualiza el estado con el valor del local storage
-        setLoading(false);
-        setsincItem(true);
+        onSuccess(parsedItem);
       } catch (error) {
-        setError(error);
+        onError(error);
+        //dispatch({ type: actionTypes.error, payload: error }); //dispara el estado error y envia el error
+        //setError(error);
       }
     }, 1000);
   }, [sincItem]);
@@ -35,16 +39,17 @@ function useLocalStorage(itemName, initialValue) {
     try {
       const stringifiedItem = JSON.stringify(newItem);
       localStorage.setItem(itemName, stringifiedItem);
-      setItem(newItem);
+      onSave(newItem);
+      //setItem(newItem);
     } catch (error) {
-      setError(error);
+      onError(error);
     }
   };
 
-  const sincronize = () => {
+  const sincronizeItem = () => {
+    //queda asi porque debo mantener la estructura de lo que sale y entra
     //al llamarlo debemos poner la app en carga y cambiamos sinc para que el effect se vuelva a ejecutar
-    setLoading(true);
-    setsincItem(false);
+    onSincronize();
   };
 
   return {
@@ -53,7 +58,53 @@ function useLocalStorage(itemName, initialValue) {
     saveItem,
     loading,
     error,
-    sincronize,
+    sincronizeItem, //exporto funcion()
   };
 }
+const initialState = ({ initialValue }) => ({
+  //los parentesis son para return implicito
+  sincItem: true,
+  error: false,
+  loading: true,
+  item: initialValue,
+});
+const actionTypes = {
+  //objeto donde viven todos los action types y asi evitar el error de llamarlos mal dentro o fuera del reducer object
+  error: "ERROR", //nombre clave dentro del reducer object
+  success: "SUCCESS",
+  save: "SAVE",
+  sincronize: "SINCRONIZE",
+};
+const reducerObject = (state, payload) => ({
+  //devuelve un objeto mediante un return implicito
+  //definimos que pasa cuando se llama a cada uno de los estados (action types)
+  [actionTypes.error]: {
+    //nombre del nuevo estado del reducer
+    ...state,
+    error: true,
+  },
+  [actionTypes.success]: {
+    //nombre del nuevo estado del reducer
+    ...state,
+    error: false,
+    loading: false,
+    sincItem: true,
+    item: payload,
+  },
+  [actionTypes.sincronize]: {
+    //nombre del nuevo estado del reducer
+    ...state,
+    loading: true,
+    sincItem: false,
+  },
+  [actionTypes.save]: {
+    ...state,
+    item: payload,
+  },
+});
+const reducer = (state, action) => {
+  //recibe el estado y un payload y es una funcion que devuelve un objeto
+  //que se llame igual que el action.type
+  return reducerObject(state, action.payload)[action.type] || state; //devuelve el objeto que match o todo el estado
+};
 export { useLocalStorage };

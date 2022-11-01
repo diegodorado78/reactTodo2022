@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useReducer } from "react";
 
 function useLocalStorage(itemName, initialValue) {
   //simulamos estados de carga y error
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [sincItem, setsincItem] = React.useState(true); //inicialmente true pero cuando ya carga pasa a false
 
   const [loading, setLoading] = React.useState(true); //inicialmente true pero cuando ya carga pasa a false

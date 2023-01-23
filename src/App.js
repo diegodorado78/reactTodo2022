@@ -17,21 +17,25 @@ import { EmptySearchedTodos } from "./components/EmptySearchedTodos/EmptySearche
 import { ChangeAlert } from "./components/ChangeAlert/ChangeAlert";
 
 function App() {
+  const { states, updaters } = useTodos(); //custon hook que provee el estado
   const {
     error,
     loading,
     totalTodos,
+    searchedTodos,
     completedTodos,
     searchValue,
     setSearchValue,
-    searchedTodos,
+    openModal,
+  } = states;
+
+  const {
     completeTodo,
     addTodo,
     deleteTodo,
-    openModal,
     setOpenModal,
     sincronizeTodos,
-  } = useTodos(); //custon hook que provee el estado
+  } = updaters;
   return (
     <React.Fragment>
       <img src={demonPic} alt="logo"></img>
